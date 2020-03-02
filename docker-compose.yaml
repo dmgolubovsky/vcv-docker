@@ -1,0 +1,40 @@
+version: "3.7"
+
+services:
+        vcv:
+                build:
+                        context: .
+                        dockerfile: vcv.dockerfile
+                command: /bin/true
+        vcv-server:
+                build: .
+                tmpfs:
+                        - /tmp
+                        - /run
+                        - /run/lock
+                volumes:
+                        - /sys/fs/cgroup:/sys/fs/cgroup:ro
+                        - /etc/timezone:/etc/timezone:ro
+                        - vcv_home:/root:rw
+                environment:
+                        - container=docker
+                        - QT_X11_NO_MITSHM=1
+                        - TZ=EST5EDT
+                hostname: vcv-docker
+                container_name: vcv-docker
+                ipc: host
+                network_mode: host
+                stop_signal: SIGRTMIN+3
+                ulimits:
+                        memlock: 400000000
+                        rtprio: 90
+                devices:
+                        - /dev/snd
+                        - /dev/dri
+                tty: true
+                command: /sbin/init
+volumes:
+        vcv_home:
+
+
+
