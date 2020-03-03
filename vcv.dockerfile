@@ -44,14 +44,30 @@ run make
 run apt install -y zip
 run make dist
 
-run ls -l dist
+workdir /build-rack
+
+run git clone https://github.com/VCVRack/library.git
+
+workdir library
+run git submodule update --init --recursive || /bin/true
+
+workdir repos
+run for vcm in * ; do (cd $vcm; echo Building in `pwd`; env RACK_DIR=/build-rack/Rack make deps ||\
+                                                        env RACK_DIR=/build-rack/Rack make -j 4 &&\
+                                                        env RACK_DIR=/build-rack/Rack make dist ) ; done
+
+
+run for z in `find . -name '*.zip'` ; do echo copying $z ; cp $z / ; done
 
 workdir /build-rack/Rack
 run cp plugins/Fundamental/dist/Fundamental-1.4.0-lin.zip Fundamental.zip
 run make dist
 
+run ls -l /build-rack/Rack/dist
+
 from scratch as install-rack
 
+copy --from=vcv-rack /*.zip /
 copy --from=vcv-rack /build-rack/Rack/dist/*.zip /
 copy --from=vcv-rack /build-rack/Rack/plugins/Fundamental/dist/*.zip /
 
