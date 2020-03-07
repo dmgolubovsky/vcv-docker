@@ -60,6 +60,7 @@ run for vcm in * ; do (cd $vcm; echo Building in `pwd`; env RACK_DIR=/build-rack
 run for z in `find . -name '*.zip'` ; do echo copying $z ; cp $z / ; done
 
 workdir /build-rack/Rack
+
 run cp plugins/Fundamental/dist/Fundamental-1.4.0-lin.zip Fundamental.zip
 run make dist
 

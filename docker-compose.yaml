@@ -6,6 +6,11 @@ services:
                         context: .
                         dockerfile: vcv.dockerfile
                 command: /bin/true
+        rack:
+                build:
+                        context: .
+                        dockerfile: rack.dockerfile
+                command: /bin/true
         vcv-server:
                 build: .
                 tmpfs:
