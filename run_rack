@@ -1,0 +1,16 @@
+#! /bin/sh
+
+docker run  --rm -v /tmp/.X11-unix/:/tmp/.X11-unix \
+       -e DISPLAY \
+       --device /dev/snd \
+       --device /dev/dri \
+       -ti --net=host \
+       --env="QT_X11_NO_MITSHM=1" \
+       --env="TZ=EST5EDT" \
+       --ipc=host \
+       --ulimit memlock=400000000 \
+       --ulimit rtprio=90 \
+       --mount source=rack_patches,target=/root/.Rack/patches \
+       --volume=/etc/timezone:/etc/timezone:ro \
+       --volume="$HOME/.Xauthority:/root/.Xauthority:rw"  vcv-docker_rack "$@"
+
