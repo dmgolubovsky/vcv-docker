@@ -27,7 +27,7 @@ copy --from=rackinit /root /root
 
 run apt -y update
 
-run apt install -y --no-install-recommends libgl1 libasound2 libjack-jackd2-0 libgtk2.0-0
+run apt install -y --no-install-recommends libgl1 libasound2 libjack-jackd2-0 libgtk2.0-0 hydrogen-drumkits
 
 from scratch
 
