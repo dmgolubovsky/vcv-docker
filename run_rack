@@ -2,6 +2,7 @@
 
 docker run  --rm -v /tmp/.X11-unix/:/tmp/.X11-unix \
        -e DISPLAY \
+       -e "PATH=$PATH:/root/bin" \
        --device /dev/snd \
        --device /dev/dri \
        -ti --net=host \
@@ -11,6 +12,7 @@ docker run  --rm -v /tmp/.X11-unix/:/tmp/.X11-unix \
        --ulimit memlock=400000000 \
        --ulimit rtprio=90 \
        --mount source=rack_patches,target=/root/.Rack/patches \
+       --mount source=rack_scripts,target=/root/bin \
        --volume=/etc/timezone:/etc/timezone:ro \
        --volume="$HOME/.Xauthority:/root/.Xauthority:rw"  vcv-docker_rack "$@"
 

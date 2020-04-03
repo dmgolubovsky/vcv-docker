@@ -21,7 +21,7 @@ from base-ubuntu as vcv-rack
 
 run apt-fast install -y wget unzip git gdb curl cmake libx11-dev libglu1-mesa-dev libxrandr-dev \
     libxinerama-dev libxcursor-dev libxi-dev zlib1g-dev libasound2-dev \
-    libgtk2.0-dev libjack-jackd2-dev jq
+    libgtk2.0-dev libjack-jackd2-dev jq sed
 
 workdir /build-rack
 run git clone https://github.com/VCVRack/Rack.git
@@ -29,6 +29,9 @@ workdir Rack
 
 run git checkout v1.1.6
 run git submodule update --init --recursive
+
+run sed -i 's/openssl-1\.1\.1d/openssl-1\.1\.1f/g' dep/Makefile
+run sed -i 's/gz 1e3a91bc.*$/gz 186c6bfe6ecfba7a5b48c47f8a1673d0f3b0e5ba2e25602dd23b629975da3f35/' dep/Makefile
 
 run make -j4 dep
 
